@@ -1,0 +1,247 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    box-sizing: border-box;
+}
+
+.heatgroup {
+    width: 90%; /* Adjust width to fit within the screen */
+    max-width: 1200px; /* Optional: Set a maximum width */
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+}
+
+.left-section {
+    flex: 0 0 auto;
+    margin-right: 20px;
+}
+
+.right-section {
+    flex: 1 1 auto;
+} /* Added missing closing brace */
+
+.heat-button {
+    height: 35px;
+    width: 80px;
+    align-self: auto;
+    margin-bottom: 10px auto;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.heat-button:disabled {
+    background-color: #ffcccc; /* Lighter red to indicate disabled state */
+    cursor: not-allowed;
+}
+
+.item-bar-container {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0; /* Grey background bar */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: 100%; /* Ensure the item bar takes full width */
+}
+
+.item-bar {
+    position: absolute;
+    height: 20px;
+    background-color: var(--item-bar-color, #f3f3f3); /* Use CSS variable for color */
+    border-radius: 5px;
+    width: 0%; /* Ensure the width starts at 0% */
+}
+
+.item-count {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.loading-bar {
+    width: 0%; /* Ensure the width starts at 0% */
+    height: 10px;
+    background-color: #4caf50;
+    border-radius: 5px;
+    margin-top: 5px; /* Adjust this value as needed */
+    transition: width var(--heat-time, 0ms) linear; /* Add transition for width */
+}
+
+.hidden {
+    display: none;
+    max-height: 0; /* Collapse the element */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+.collapsible {    
+    width: 90%; /* Adjust width to fit within the screen */
+    max-width: 1200px; /* Optional: Set a maximum width */ 
+    height: 12px;
+    padding: 20px;
+    display: flex;
+    flex: 1 1 auto;   
+    overflow-y: hidden;      
+    margin: 0px auto; 
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    text-align: space-between;
+    outline: none;
+    background-color: #f1f1f1;    
+}
+.collapsible.hidden {
+    display: none;
+}
+
+.collapsible-content {
+    margin-top: 10px;  
+    display: flex; /* Add flexbox for even spacing */
+    justify-content: space-between; /* Spread buttons evenly */
+    transition: max-height 0.2s ease-in-out;
+    overflow: hidden;
+    max-height: 300px; /* Default expanded height */
+}
+
+.collapsible-content.hidden {
+    max-height: 0; /* Collapse the content */
+}
+
+.collapsible-content:not(.hidden) {
+    max-height: 300px; /* Adjust as needed for visible state */
+}
+
+.collapsible-content button {
+    width: 100px; /* Set uniform width */
+    height: 40px; /* Set uniform height */
+}
+
+.collapsible-content button:disabled {
+    cursor: not-allowed; /* Disable pointer for disabled buttons */
+}
+
+.collapsible-container {
+    width: 90%; /* Adjust width to fit within the screen */
+    max-width: 1200px; /* Optional: Set a maximum width */
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    text-align: center;    
+    align-items: space-between;
+    transition: max-height 0.2s ease-in-out;
+    justify-items: space-between;
+    max-height: 300px; /* Default expanded height */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+.collapsible-container.hidden {
+    display: none;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.job-speed-label {
+    font-size: 10px;
+    margin-left: 10px; /* Add spacing between button and label */
+    text-align: left;
+    line-height: 1.2; /* Adjust line height for better readability */
+    display: flex;
+    align-items: center; /* Align vertically with the button */
+}
+
+.tanks-group {
+    width: 90%; /* Adjust width to fit within the screen */
+    max-width: 1200px; /* Optional: Set a maximum width */
+    margin: 10px auto 0; /* 10px distance from the collapsible container */
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+}
+
+.tank-button {
+    height: 35px;
+    width: 80px;
+    align-self: auto;
+    margin-bottom: 10px auto;
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tank-button:disabled {
+    background-color: #cccccc; /* Grey out the button */
+    cursor: none; /* Hide the cursor */
+}
+
+.tank-button.heat-disabled {
+    background-color: #e0e0e0; /* Lighter grey to indicate insufficient heat */
+    cursor: not-allowed; /* Show not-allowed cursor */
+}
+
+.tank-bar-container {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0; /* Grey background bar */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: 100%; /* Ensure the tank bar takes full width */
+}
+
+.tank-bar {
+    position: absolute;
+    height: 20px;
+    background-color: var(--tank-bar-color, #f3f3f3); /* Use CSS variable for color */
+    border-radius: 5px;
+    width: 0%; /* Ensure the width starts at 0% */
+}
+
+.tank-count {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tank-loading-bar {
+    width: 0%; /* Ensure the width starts at 0% */
+    height: 10px;
+    background-color: #4caf50;
+    border-radius: 5px;
+    margin-top: 5px; /* Adjust this value as needed */
+    transition: width var(--tank-time, 0ms) linear; /* Add transition for width */
+}
+
+.tanks-group.hidden {
+    display: none;
+}
+
+.tank {
+    width: 100px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}

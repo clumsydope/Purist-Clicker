@@ -21,6 +21,12 @@ document.addEventListener('keydown', (event) => {
         heatGenerate();
     }
 });
+// Activate tank button when "T" key is pressed
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'KeyT' && !document.querySelector('.tank-button').disabled) {
+        tankGenerate();
+    }
+});
 
 // Toggle collapsible content visibility
 collapsibleButton.addEventListener('click', () => {
@@ -28,8 +34,41 @@ collapsibleButton.addEventListener('click', () => {
     collapsibleContent.classList.toggle('hidden');
 });
 
+
 document.querySelector('.collapsible-content button:nth-child(1)').addEventListener('click', jobSpeedUP);
-document.querySelector('.collapsible-content button:nth-child(2)').addEventListener('click', IncreaseHeatcap);
+document.querySelector('.collapsible-content button:nth-child(3)').addEventListener('click', increaseHeatcap);
+
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.remove('hidden');
+    });
+});
+
+// Show Armory tab when firstTen is true
+function showArmoryTab() {
+    const armoryTabButton = document.querySelector('.tab-button[data-tab="armory-tab"]');
+    armoryTabButton.classList.remove('hidden');
+}
+
+function updateHeatAmount(newHeatAmount) {
+    heatAmount = newHeatAmount;
+    document.querySelector('.item-count').textContent = heatAmount;
+
+    // Update heat item-bar
+    const itemBar = document.querySelector('.item-bar');
+    const heatRatio = heatAmount / maxHeat;
+    const colorValue = Math.floor(255 * (1 - heatRatio));
+    itemBar.style.setProperty('--item-bar-color', `rgb(255, ${colorValue}, ${colorValue})`);
+    itemBar.style.width = `${heatRatio * 100}%`;
+
+    // Dispatch custom event
+    const event = new Event('heatAmountUpdated');
+    document.dispatchEvent(event);
+}
 
 function heatGenerate() {
     const heatButton = document.querySelector('.heat-button');
@@ -44,8 +83,7 @@ function heatGenerate() {
     loadingBar.classList.remove('hidden');
 
     setTimeout(() => {
-        heatAmount++;
-        itemCount.textContent = heatAmount;
+        updateHeatAmount(heatAmount + 1);
         loadingBar.style.width = '0%';
         loadingBar.style.transition = 'none'; // Disable transition after completion
 
@@ -76,6 +114,7 @@ function heatGenerate() {
             collapsibleButton.classList.remove('hidden');
             collapsibleContainer.classList.remove('hidden');
             document.querySelector('.tanks-group').classList.remove('hidden');
+            showArmoryTab(); // Show the Armory tab
          }
 
         // Show Tanks group when firstTen is true
@@ -104,8 +143,7 @@ function tankGenerate() {
         return;
     }
 
-    heatAmount -= 10; // Deduct 10 heat for tank generation
-    document.querySelector('.item-count').textContent = heatAmount;
+    updateHeatAmount(heatAmount - 10); // Deduct 10 heat for tank generation
     // Enable heat button if heatAmount < maxHeat
     if (heatAmount < maxHeat) {
         heatButton.disabled = false;
@@ -124,8 +162,8 @@ function tankGenerate() {
     const tankButton = document.querySelector('.tank-button');
     const tankLoadingBar = document.querySelector('.tank-loading-bar');
     const tankCount = document.querySelector('.tank-count');
-    const tankBar = document.querySelector('.tank-bar');   
-    const capacityButton = document.querySelector('.collapsible-content button:nth-child(2)');
+    const tankBar = document.querySelector('.tank-bar');       
+    
     // Disable tank button during tank generation
     tankButton.disabled = true;
     tankButton.classList.add('heat-disabled');
@@ -136,20 +174,19 @@ function tankGenerate() {
     tankLoadingBar.classList.remove('hidden');
 
     setTimeout(() => {
+        const capacityButton = document.querySelector('.collapsible-content button:nth-child(3)');
         tankAmount++;
         tankCount.textContent = tankAmount;
         tankLoadingBar.style.width = '0%';
         tankLoadingBar.style.transition = 'none'; // Disable transition after completion
-
-        // Update tank bar color based on tanks generated
+                
+        // Update tank bar and other UI elements
         const tankRatio = tankAmount / maxTanks;
         const colorValue = Math.floor(255 * (1 - tankRatio));
         tankBar.style.setProperty('--tank-bar-color', `rgb(${colorValue}, 255, ${colorValue})`);
-
-        // Update tank bar width based on tanks generated
         tankBar.style.width = `${tankRatio * 100}%`;
 
-        // Enable or grey out tank button based on heatAmount
+        // Enable or disable buttons based on updated values
         if (heatAmount >= 10) {
             tankButton.disabled = false;
             tankButton.classList.remove('heat-disabled');
@@ -157,19 +194,12 @@ function tankGenerate() {
             tankButton.disabled = true;
             tankButton.classList.add('heat-disabled');
         }
-
-        // Disable tank button if maxTanks is reached
-        if (tankAmount >= maxTanks) {
-            tankButton.disabled = true;
-        }
-
-        // Enable Capacity button if tankAmount >= capacityreq
-        if (tankAmount >= capacityreq) {
-            capacityButton.disabled = false;
-        }
+        console.log(`Tank Amount: ${tankAmount}, Capacity Requirement: ${capacityreq}`);
         
-        // Update Capacity button state
-        updateCapacityButtonState();
+        if (tankAmount >= capacityreq) {
+           capacityButton.disabled = false;
+        }
+               
     }, tankTime);
 }
 
@@ -183,7 +213,7 @@ function jobSpeedUP() {
         return;
     }
 
-    heatAmount -= upSpeedreq; // Deduct heat required for the upgrade
+    updateHeatAmount(heatAmount - upSpeedreq); // Deduct heat required for the upgrade
     upSpeedreq += 1; // Increment the requirement for the next upgrade
     if (heatTime >= 50) { heatTime -= 250; } // Reduce heatTime, but ensure it doesn't go below 500ms
     console.log(`Job speed upgraded! New heat time: ${heatTime}ms`);
@@ -220,37 +250,28 @@ function jobSpeedUP() {
     }
 
 // Capacity button logic
-function IncreaseHeatcap() {
-    if (tankAmount < capacityreq) {
-        console.log("Not enough tanks to increase capacity.");
-        return;
-    }
-
+function increaseHeatcap() {   
+    const tankCount = document.querySelector('.tank-count');
+    const capacityButton = document.querySelector('.collapsible-content button:nth-child(3)');
+    const heatCapacityLabel = document.querySelector('.heat-capacity-label');
+    tankAmount -= capacityreq; // Deduct tanks required for capacity increase
     capacityreq += 1; // Increment capacity requirement
     maxHeat += 1; // Increase max heat capacity
     console.log("New max heat capacity =", maxHeat);
 
     // Disable Capacity button if tankAmount < capacityreq
     if (tankAmount < capacityreq) {
-        document.querySelector('.collapsible-content button:nth-child(2)').disabled = true;
-    }
-
-    // Update Capacity button label
-    const capacityButton = document.querySelector('.collapsible-content button:nth-child(2)');
-    capacityButton.textContent = `Capacity (Needs ${capacityreq} Tanks)`;
-}
-
-// Update Capacity button state dynamically
-function updateCapacityButtonState() {
-    const capacityButton = document.querySelector('.collapsible-content button:nth-child(2)');
-    if (tankAmount >= capacityreq) {
-        capacityButton.disabled = false;
-    } else {
         capacityButton.disabled = true;
     }
+
+    // Update heat capacity label
+    heatCapacityLabel.innerHTML = `Maximum Heat Capacity: ${maxHeat}<br>Upgrade needs: ${capacityreq} Tank`;
+
+    // Update tank bar
+    tankCount.textContent = tankAmount;
+    const tankBar = document.querySelector('.tank-bar');
+    const tankRatio = tankAmount / maxTanks;
+    const colorValue = Math.floor(255 * (1 - tankRatio));
+    tankBar.style.setProperty('--tank-bar-color', `rgb(${colorValue}, 255, ${colorValue})`);
+    tankBar.style.width = `${tankRatio * 100}%`;
 }
-
-// Initial update for Capacity button state
-updateCapacityButtonState();
-
-

@@ -7,46 +7,73 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="heatgroup">
-        <div class="left-section">
-            <button class="heat-button">Heat</button>
-        </div>
-        <div class="right-section">
-            <div class="item-bar-container">
-                <div class="item-bar"></div>
-                <span class="item-count">0</span>
+    <div class="tabs">
+        <button class="tab-button active" data-tab="machine-tab">Machine</button>
+        <button class="tab-button hidden" data-tab="armory-tab">Armory</button>
+    </div>
+    <div id="machine-tab" class="tab-content">
+        <div class="heatgroup">
+            <div class="left-section">
+                <button class="heat-button">Heat</button>
             </div>
-            <div class="loading-bar"></div>
+            <div class="right-section">
+                <div class="item-bar-container">
+                    <div class="item-bar"></div>
+                    <span class="item-count">0</span>
+                </div>
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+        <button type="button" class="collapsible hidden">
+            <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 320 512">
+            <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
+            </svg>
+        </button>
+        <div class="collapsible-container hidden">
+            <div class="collapsible-content">
+                <button disabled style="cursor: pointer;">Job Speed</button>
+                <span class="job-speed-label">Heat generation: 2.00s<br>Upgrade needs: 10</span>
+                <button disabled style="cursor: pointer;">Capacity</button>
+                <span class="heat-capacity-label">Maximum Heat Capacity: 10<br>Upgrade needs: 10 Tank</span>
+                <button disabled style="cursor: pointer;">Three</button>
+                <button disabled style="cursor: pointer;">Four</button>
+            </div>
+        </div>
+        <div class="tanks-group hidden">
+            <div class="left-section">
+                <button class="tank-button">Tank</button>
+            </div>
+            <div class="right-section">
+                <div class="tank-bar-container">
+                    <div class="tank-bar"></div>
+                    <span class="tank-count">0</span>
+                </div>
+                <div class="tank-loading-bar"></div>
+            </div>
         </div>
     </div>
-    <button type="button" class="collapsible hidden">
-        <svg 
-        xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 320 512">
-        <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
-        </svg>
-    </button>
-    <div class="collapsible-container hidden">
-        <div class="collapsible-content">
-            <button disabled style="cursor: pointer;">Job Speed</button>
-            <span class="job-speed-label">Heat generation: 2.00s<br>Upgrade needs: 10</span>
-            <button disabled style="cursor: pointer;">Capacity</button>
-            <button disabled style="cursor: pointer;">Three</button>
-            <button disabled style="cursor: pointer;">Four</button>
-        </div>
-    </div>
-    <div class="tanks-group hidden">
-        <div class="left-section">
-            <button class="tank-button">Tank</button>
-        </div>
-        <div class="right-section">
-            <div class="tank-bar-container">
-                <div class="tank-bar"></div>
-                <span class="tank-count">0</span>
+    <div id="armory-tab" class="tab-content hidden">
+        <div class="armory-group">
+            <h2>Armory</h2>
+            <p>Welcome to the Armory! Unlock and upgrade weapons here.</p>
+            <div class="worker-group">
+                <div class="left-section">
+                    <button class="worker-button" disabled>Train Worker</button>
+                </div>
+                <div class="right-section">
+                    <div class="worker-bar-container">
+                        <div class="worker-bar">
+                            <span class="worker-count">0</span>
+                        </div>
+                    </div>
+                    <div class="worker-loading-bar hidden"></div>
+                </div>
             </div>
-            <div class="tank-loading-bar"></div>
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="armory script.js"></script>
 </body>
 </html>

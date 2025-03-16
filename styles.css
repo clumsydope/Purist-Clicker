@@ -127,9 +127,7 @@ body {
     height: 40px; /* Set uniform height */
 }
 
-.collapsible-content button:disabled {
-    cursor: not-allowed; /* Disable pointer for disabled buttons */
-}
+
 
 .collapsible-container {
     width: 90%; /* Adjust width to fit within the screen */
@@ -154,6 +152,15 @@ body {
 
 .job-speed-label {
     font-size: 10px;
+    margin-left: 10px; /* Add spacing between button and label */
+    text-align: left;
+    line-height: 1.2; /* Adjust line height for better readability */
+    display: flex;
+    align-items: center; /* Align vertically with the button */
+}
+
+.heat-capacity-label {
+    font-size: 10px; /* Set font size to 10px */
     margin-left: 10px; /* Add spacing between button and label */
     text-align: left;
     line-height: 1.2; /* Adjust line height for better readability */
@@ -186,7 +193,7 @@ body {
 
 .tank-button:disabled {
     background-color: #cccccc; /* Grey out the button */
-    cursor: none; /* Hide the cursor */
+    cursor: not-allowed; /* Hide the cursor */
 }
 
 .tank-button.heat-disabled {
@@ -244,4 +251,137 @@ body {
     align-items: center;
     font-size: 14px;
     font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    justify-content: flex-start; /* Align tabs to the left */
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove border radius */
+    background-color: rgb(255,255,255); 
+    color: inherit; /* Inherit text color from body */
+    font-size: inherit; /* Inherit font size from body */
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background-color: #ddd; /* Slightly highlight active tab */
+    font-weight: bold;
+}
+
+.tab-button.hidden {
+    display: none;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content:not(.hidden) {
+    display: block;
+}
+
+.worker-group {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    text-align: center;
+    display: flex;
+    align-items: flex-start;
+}
+
+.worker-group .left-section {
+    flex: 0 0 auto;
+    margin-right: 20px;
+}
+
+.worker-group .right-section {
+    flex: 1 1 auto;
+}
+
+.worker-button {
+    height: 35px;
+    width: 120px;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.worker-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.worker-bar-container {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0; /* Grey background bar */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.worker-bar {
+    position: relative;
+    height: 20px;
+    background-color: #4caf50; /* Green bar for workers */
+    border-radius: 5px;
+    width: 0%; /* Ensure the width starts at 0% */
+    display: flex;
+    justify-content: flex-end; /* Align the worker count to the right */
+    align-items: center; /* Vertically align the worker count */
+    color: white; /* Make the text color white for visibility */
+    font-weight: bold;
+    padding-right: 10px; /* Add padding for spacing */
+}
+
+.worker-count {
+    position: absolute; /* Ensure it stays inside the worker bar */
+    font-size: 14px;
+    right: 10px; 
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.worker-loading-bar {
+    width: 0%;
+    height: 10px;
+    background-color: #4caf50;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: width var(--worker-time, 0ms) linear;
+}
+
+.worker-loading-bar.hidden {
+    display: none;
+}
+
+.worker-count {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.worker-loading-bar {
+    width: 0%;
+    height: 10px;
+    background-color: #4caf50;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: width var(--worker-time, 0ms) linear;
+}
+
+.worker-loading-bar.hidden {
+    display: none;
 }
